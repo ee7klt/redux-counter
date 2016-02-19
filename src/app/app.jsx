@@ -1,20 +1,39 @@
-(function () {
-  let React = require('react');
-  let ReactDOM = require('react-dom');
-  let injectTapEventPlugin = require('react-tap-event-plugin');
-  let Main = require('./components/main.jsx'); // Our custom react component
+ let state = [{id:0, count:5},{id:1, count:3},{id:2, count:1}];
 
-  //Needed for React Developer Tools
-  window.React = React;
+/**
+let increment = (list,id) => {
 
-  //Needed for onTouchTap
-  //Can go away when react 1.0 release
-  //Check this repo:
-  //https://github.com/zilverline/react-tap-event-plugin
-  injectTapEventPlugin();
+ // index = list.findIndex((x) => {return x.id === id;});
+ let  index=1;
+ return [
+    ...list.slice(0, index),
+    list[index].count +1,
+    ...list.slice(index+1),
+  ];
 
-  // Render the main app react component into the app div.
-  // For more details see: https://facebook.github.io/react/docs/top-level-api.html#react.render
-  ReactDOM.render(<Main />, document.getElementById('app'));
+};
+**/
 
-})();
+
+const increment = (list ={},id) => {
+
+ return list.map(todo => {
+   if (todo.id === id) {
+   console.log('match found ... incrementing')
+     return {...todo, count: todo.count+1};
+     }
+   else return todo;
+ });
+
+};
+
+console.log(state)
+console.log(increment(state,1))
+/**
+state = increment(state,1);
+console.log(state);
+state = increment(state,1);
+console.log(state);
+state = increment(state,2);
+console.log(state);
+**/
