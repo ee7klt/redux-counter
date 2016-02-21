@@ -23,7 +23,9 @@
     "react-hot-loader": "^1.2.8",
     "transfer-webpack-plugin": "^0.1.4",
     "webpack": "^1.11.0",
-    "webpack-dev-server": "^1.10.1"
+    "webpack-dev-server": "^1.10.1",
+    "expect":"*",
+    "deep-freeze":"*"
   },
   "dependencies": {
     "react": "^0.14.0",

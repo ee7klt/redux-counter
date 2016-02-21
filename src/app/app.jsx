@@ -1,39 +1,36 @@
- let state = [{id:0, count:5},{id:1, count:3},{id:2, count:1}];
-
-/**
-let increment = (list,id) => {
-
- // index = list.findIndex((x) => {return x.id === id;});
- let  index=1;
- return [
-    ...list.slice(0, index),
-    list[index].count +1,
-    ...list.slice(index+1),
-  ];
-
-};
-**/
+import expect, { createSpy, spyOn, isSpy } from 'expect';
+import deepFreeze from 'deep-freeze';
 
 
-const increment = (list ={},id) => {
 
- return list.map(todo => {
-   if (todo.id === id) {
-   console.log('match found ... incrementing')
-     return {...todo, count: todo.count+1};
+
+const counters = (state ={},action) => {
+
+switch (action.type) {
+case 'INCREMENT':
+ return state.map(counter => {
+   if (counter.id === action.id) {
+     return {...counter, count: counter.count+1};
      }
-   else return todo;
+   else return counter;
  });
 
+default:
+return state;
+
+};
 };
 
-console.log(state)
-console.log(increment(state,1))
-/**
-state = increment(state,1);
-console.log(state);
-state = increment(state,1);
-console.log(state);
-state = increment(state,2);
-console.log(state);
-**/
+const testIncrement = () => {
+
+const stateBefore =  [{id:0, count:5},{id:1, count:3},{id:2, count:1}];
+const stateAfter =  [{id:0, count:5},{id:1, count:4},{id:2, count:1}];
+const action = {type: 'INCREMENT', id: 1};
+deepFreeze(stateBefore);
+deepFreeze(action);
+expect (counters(stateBefore,action)).toEqual(stateAfter)
+console.log('testIncrement passed');
+
+}
+
+testIncrement();
