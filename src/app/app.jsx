@@ -1,6 +1,6 @@
 import expect, { createSpy, spyOn, isSpy } from 'expect';
 import deepFreeze from 'deep-freeze';
-
+import {createStore} from 'redux';
 
 
 
@@ -74,6 +74,8 @@ const addCount = (state = 0, action) => {
   switch (action.type) {
     case 'ADD_COUNTER':
     return state+1;
+    case 'REMOVE_COUNTER':
+    return state-1;
     default:
     return state;
   }
@@ -129,7 +131,7 @@ const testDecrement = () => {
 
 const testRemoveCounter = () => {
   const stateBefore =  {counters: [{id:0, count:5},{id:1, count:5},{id:2, count:1}], addCount: 3};
-  const stateAfter = {counters:  [{id:1, count:5}, {id:2, count:1}], addCount: 3};
+  const stateAfter = {counters:  [{id:1, count:5}, {id:2, count:1}], addCount: 2};
   const action = {type: 'REMOVE_COUNTER', id: 0};
   deepFreeze(stateBefore);
   deepFreeze(action);
