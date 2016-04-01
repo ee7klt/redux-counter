@@ -1,6 +1,17 @@
 import expect, { createSpy, spyOn, isSpy } from 'expect';
 import deepFreeze from 'deep-freeze';
 import {createStore} from 'redux';
+import React from 'react';
+import ReactDOM from 'react-dom';
+
+// action types
+// INCREMENT: id
+// DECREMENT: id
+// ADD_COUNTER: id
+// REMOVE_COUNTER: id
+
+
+
 
 
 
@@ -51,7 +62,12 @@ const counters = (state ={},action) => {
     case 'INCREMENT':
     case 'DECREMENT':
     return state.map(c => counter(c, action))
-    .sort(function(a,b) {return a.count-b.count}).reverse();
+    .sort(function(a,b) {
+      if (a.count === b.count)
+      return 1
+      else return a.count-b.count
+    })
+    .reverse();
 
     case 'ADD_COUNTER':
     return [...state, counter(state,action)];
@@ -93,6 +109,114 @@ const counterApp = (state = {}, action) => {
 
 }
 
+const store = createStore(counterApp);
+
+
+// presentational components
+const Buttons = () => (
+  <div>
+    <button>+</button>
+    <button>-</button>
+  </div>
+
+)
+
+
+
+const AddCounterButton =() => (
+  <div>
+    <span><Buttons /></span>
+    <span><Button>Add counter</Button></span>
+  </div>
+)
+
+ReactDOM.render(<AddCounterButton />, document.getElementById('app'))
+
+console.log('Initial state:');
+console.log(store.getState());
+console.log('---------------------');
+
+console.log('Dispatching ADD_COUNTER');
+store.dispatch({
+  type: 'ADD_COUNTER',
+  id: 0,
+});
+
+console.log('current state');
+console.log(store.getState());
+console.log('---------------------');
+
+console.log('Dispatching ADD_COUNTER');
+store.dispatch({
+  type: 'ADD_COUNTER',
+  id: 1,
+});
+
+console.log('current state');
+console.log(store.getState());
+console.log('---------------------');
+console.log('Dispatching INCREMENT');
+store.dispatch({
+  type: 'INCREMENT',
+  id: 1,
+});
+
+console.log('current state');
+console.log(store.getState());
+console.log('---------------------');
+
+
+console.log('Dispatching INCREMENT');
+store.dispatch({
+  type: 'INCREMENT',
+  id: 0,
+});
+
+console.log('current state');
+console.log(store.getState().counters);
+console.log('---------------------');
+
+console.log('Dispatching INCREMENT');
+store.dispatch({
+  type: 'INCREMENT',
+  id: 0,
+});
+
+console.log('current state');
+console.log(store.getState().counters);
+console.log('---------------------');
+
+console.log('Dispatching INCREMENT');
+store.dispatch({
+  type: 'INCREMENT',
+  id: 1,
+});
+
+console.log('current state');
+console.log(store.getState().counters);
+console.log('---------------------');
+
+console.log('Dispatching INCREMENT');
+store.dispatch({
+  type: 'INCREMENT',
+  id: 1,
+});
+console.log('current state');
+console.log(store.getState().counters);
+console.log('---------------------');
+console.log('Dispatching DECREMENT');
+store.dispatch({
+  type: 'DECREMENT',
+  id: 1,
+});
+
+console.log('current state');
+console.log(store.getState().counters);
+console.log('---------------------');
+
+
+
+
 const testAddCounter = () => {
 
   const stateBefore = {counters: [{id:0, count:5},{id:1, count:5},{id:2, count:1}], addCount: 3};
@@ -119,8 +243,8 @@ const testIncrement = () => {
 
 const testDecrement = () => {
 
-  const stateBefore =  {counters: [{id:0, count:5},{id:1, count:5},{id:2, count:1}], addCount: 3};
-  const stateAfter = {counters:  [{id:1, count:5},{id:0, count:4},{id:2, count:1}], addCount: 3};
+  const stateBefore =  {counters: [{id:0, count:6},{id:1, count:5},{id:2, count:1}], addCount: 3};
+  const stateAfter = {counters:  [{id:0, count:5},{id:1, count:5},{id:2, count:1}], addCount: 3};
   const action = {type: 'DECREMENT', id: 0};
   deepFreeze(stateBefore);
   deepFreeze(action);
@@ -130,16 +254,16 @@ const testDecrement = () => {
 }
 
 const testRemoveCounter = () => {
-  const stateBefore =  {counters: [{id:0, count:5},{id:1, count:5},{id:2, count:1}], addCount: 3};
-  const stateAfter = {counters:  [{id:1, count:5}, {id:2, count:1}], addCount: 2};
-  const action = {type: 'REMOVE_COUNTER', id: 0};
+  const stateBefore =  {counters: [{id:0, count:5},{id:1, count:5},{id:2, count:5}], addCount: 3};
+  const stateAfter = {counters:  [{id:0, count:5}, {id:2, count:5}], addCount: 2};
+  const action = {type: 'REMOVE_COUNTER', id: 1};
   deepFreeze(stateBefore);
   deepFreeze(action);
   expect (counterApp(stateBefore,action)).toEqual(stateAfter)
   console.log('testRemoveCounter passed');
 }
 
-testIncrement();
+//testIncrement();
 testDecrement();
-testAddCounter();
+//testAddCounter();
 testRemoveCounter();
