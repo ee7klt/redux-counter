@@ -22,6 +22,7 @@ export  const counter =(state = {}, action ) => {
     else return state;
 
     case 'ADD_COUNTER':
+    console.log('adding a new counter...');
     return  {id:action.id, count: 0 };
 
     case 'REMOVE_COUNTER':

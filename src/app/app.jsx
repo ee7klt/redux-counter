@@ -13,11 +13,11 @@ const store = createStore(counterApp);
 const Button = ({
   count,
 }) => (
-  <span>
+  <li>
     <button>+</button>
     <span>{count}</span>
     <button>-</button>
-  </span>
+  </li>
 
 )
 
@@ -26,36 +26,46 @@ const Button = ({
 
 let nextCounterId = 0;
 const AddCounter = () => (
-    <button onClick = {() => {store.dispatch({
-    type: 'ADD_COUNTER', id:nextCounterId++,
-  })
-}}>Add Counter</button>
+  <button onClick = {() => {store.dispatch({
+      type: 'ADD_COUNTER', id:nextCounterId++,
+    })
+  }}>Add Counter</button>
 )
 
 
 class Counters extends Component {
+
+  componentDidMount() {
+    this.unsubscribe = store.subscribe(() =>
+    this.forceUpdate()
+  );
+}
+
+componentWillUnmount() {
+  this.unsubscribe();
+}
+
+
+render() {
   const state = store.getState();
   const counters = state.counters;
-  render() {
-    return <div>
-      {
-        counters.map(
-          x => {
-            <Button>{x.count}</Button>
+  //console.log(state.counters[0]);
 
-    }
-  )
-  }
-  </div>
+  if (counters[0]) {
+    return <ul>
+      {counters.map(x => <Button count = {x.count}></Button>)}
+    </ul>
+} else return <div></div>
 
-  }
 }
+}
+
 
 //Counters();
 const DisplayCounters = () => (
   <div>
-  <Counters />
-  <AddCounter />
+    <Counters />
+    <AddCounter />
   </div>
 )
 
