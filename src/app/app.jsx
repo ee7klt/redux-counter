@@ -5,42 +5,37 @@ import {counterApp} from './counterApp.jsx';
 import React from 'react';
 import ReactDOM from 'react-dom';
 import {Component} from 'react';
-
+import Button from './Button.jsx';
+import AddCounterButton from './AddCounterButton.jsx'
 
 
 const store = createStore(counterApp);
 
-const Button = ({
-  count,
-  id,
-  onIncrementClick,
-  onDecrementClick,
-  onRemoveClick,
-}) => (
-  <li  style = {{listStyleType: 'none'}}>
-    {id} <button onClick = {
-          onIncrementClick
-        }
-       >+</button>
-    <span>{count}</span>
-    <button onClick = {
-        onDecrementClick
-      }>-</button>
-    <button onClick = {onRemoveClick}>x</button>
-  </li>
 
-)
+
 
 
 
 
 let nextCounterId = 0;
-const AddCounter = () => (
-  <button onClick = {() => {store.dispatch({
-      type: 'ADD_COUNTER', id:nextCounterId++,
-    })
-  }}>Add Counter</button>
-)
+
+
+
+class AddCounter extends Component {
+
+render() {
+   return <div>
+     <AddCounterButton onButtonClick = {
+         () => {
+           store.dispatch({
+             type: 'ADD_COUNTER',
+             id: nextCounterId++,
+           })
+         }
+       } />
+    </div>
+}
+}
 
 
 class Counters extends Component {
@@ -50,6 +45,7 @@ class Counters extends Component {
     this.forceUpdate()
   );
 }
+
 
 componentWillUnmount() {
   this.unsubscribe();

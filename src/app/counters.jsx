@@ -12,6 +12,8 @@ export const counters = (state ={},action) => {
       // promote a counter only if it is not already first
       // and if it's count exceeds the counter above it.
     //   if ((c.id !==1) && (c.id === action.id))
+    // oh darn, i'd been sorting by b-a instead of b.count -a.count
+    // no wonder it was mucking up!. works now!
     return b.count - a.count;
     });
 
