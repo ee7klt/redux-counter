@@ -12,11 +12,21 @@ const store = createStore(counterApp);
 
 const Button = ({
   count,
+  id,
+  onIncrementClick,
+  onDecrementClick,
+  onRemoveClick,
 }) => (
-  <li>
-    <button>+</button>
+  <li  style = {{listStyleType: 'none'}}>
+    {id} <button onClick = {
+          onIncrementClick
+        }
+       >+</button>
     <span>{count}</span>
-    <button>-</button>
+    <button onClick = {
+        onDecrementClick
+      }>-</button>
+    <button onClick = {onRemoveClick}>x</button>
   </li>
 
 )
@@ -53,7 +63,37 @@ render() {
 
   if (counters[0]) {
     return <ul>
-      {counters.map(x => <Button count = {x.count}></Button>)}
+      {counters.map(x => <Button
+        id = {x.id}
+        key = {x.id}
+        count = {x.count}
+        onIncrementClick = {
+          () => {
+            store.dispatch({
+              type:'INCREMENT',
+              id: x.id,
+            })
+          }
+        }
+        onDecrementClick = {
+          () => {
+            store.dispatch({
+              type:'DECREMENT',
+              id: x.id,
+            })
+          }
+        }
+        onRemoveClick = {
+          () => {
+            store.dispatch({
+              type: 'REMOVE_COUNTER',
+              id: x.id,
+            })
+          }
+        }
+        >
+
+      </Button>)}
     </ul>
 } else return <div></div>
 
@@ -64,8 +104,9 @@ render() {
 //Counters();
 const DisplayCounters = () => (
   <div>
+      <AddCounter />
     <Counters />
-    <AddCounter />
+
   </div>
 )
 
