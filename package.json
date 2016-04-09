@@ -24,13 +24,14 @@
     "transfer-webpack-plugin": "^0.1.4",
     "webpack": "^1.11.0",
     "webpack-dev-server": "^1.10.1",
-    "expect":"*",
-    "deep-freeze":"*",
-    "redux":"*"
+    "expect": "*",
+    "deep-freeze": "*",
+    "redux": "*"
   },
   "dependencies": {
+    "material-ui": "^0.15.0-alpha.2",
     "react": "^0.14.0",
-    "react-dom":"^0.14.0",
+    "react-dom": "^0.14.0",
     "react-tap-event-plugin": "^0.2.1"
   }
 }

@@ -1,10 +1,11 @@
 
 import React from 'react';
+import RaisedButton from 'material-ui/lib/raised-button';
 
 const AddCounterButton = ({
   onButtonClick,
 }) => (
-  <button onClick = {onButtonClick}>Add Counter</button>
+  <RaisedButton onClick = {onButtonClick} label = 'Add Counter'/>
 );
 
 
